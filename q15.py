@@ -2,10 +2,11 @@
 from mininet.net import Mininet
 from mininet.node import OVSSwitch, Controller
 from mininet.cli import CLI
+from mininet.link import TCLink
 from mininet.log import setLogLevel
 
 def create_network():
-    net = Mininet(controller=Controller, switch=OVSSwitch)
+    net = Mininet(controller=Controller, switch=OVSSwitch, link=TCLink)
     # Adicionar o controlador
     c0 = net.addController('c0')
 
@@ -24,11 +25,11 @@ def create_network():
     h5 = net.addHost('h5')
 
     # Adiciona os enlaces entre os switches e os hosts
-    net.addLink(s1, h1)
-    net.addLink(s2, h2)
-    net.addLink(s3, h3)
-    net.addLink(s4, h4)
-    net.addLink(s5, h5)
+    net.addLink(s1, h1, bw=100, delay='10ms')
+    net.addLink(s2, h2, bw=100, delay='10ms')
+    net.addLink(s3, h3, bw=100, delay='10ms')
+    net.addLink(s4, h4, bw=100, delay='10ms')
+    net.addLink(s5, h5, bw=100, delay='10ms')
 
     # Conectar os switches
     net.addLink(s1, s2)
