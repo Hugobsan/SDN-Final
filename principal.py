@@ -64,6 +64,15 @@ def create_network():
     s3.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
     s4.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
     s5.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
+
+    # Incluindo o POX
+    s1.cmd('sudo ovs-vsctl set bridge s1 protocols=OpenFlow10')
+    s2.cmd('sudo ovs-vsctl set bridge s2 protocols=OpenFlow10')
+    s3.cmd('sudo ovs-vsctl set bridge s3 protocols=OpenFlow10')
+    s4.cmd('sudo ovs-vsctl set bridge s4 protocols=OpenFlow10')
+    s5.cmd('sudo ovs-vsctl set bridge s5 protocols=OpenFlow10')
+
+    c0.cmd('cd /home/ubuntu/pox && ./pox.py log.level forwarding.tutorial_l2_hub')
     
     # Iniciar a interface de linha de comando
     CLI(net)
