@@ -32,7 +32,7 @@ def create_network():
     for i in range(1, 6):
         #Para cada switch, adiciona 2 hosts
         for j in range(1, 3):
-            net.addLink(switches['s%s' % i], hosts['h%s' % j])
+            net.addLink(switches['s%s' % i], hosts['h%s' % j], bw=100, delay='10ms', loss=0, use_htb=True)
         
 
     # Conectar os switches
