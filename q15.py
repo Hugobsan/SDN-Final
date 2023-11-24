@@ -34,10 +34,10 @@ def create_network():
     # Conectar os switches
     net.addLink(s1, s5)
     net.addLink(s1, s4)
+    net.addLink(s1, s3)
     net.addLink(s2, s3)
     net.addLink(s2, s5)
     net.addLink(s3, s4)
-
 
     # Iniciar a rede
     net.build()
