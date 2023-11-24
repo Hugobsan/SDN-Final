@@ -36,7 +36,8 @@ def create_network():
     net.addLink(s4, s3)
     net.addLink(s3, s2)
     net.addLink(s2, s5)
-    net.addLink(s5, s1)
+    net.addLink(s5, s3)
+    net.addLink(s3, s1)
 
     # Iniciar a rede
     net.build()
