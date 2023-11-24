@@ -59,12 +59,12 @@ def create_network():
     h5.cmd('ifconfig h5-eth0 10.0.0.5 netmask 255.255.255.0')
     
     # Definir o controlador para as switches
-    s1.cmd('ovs-vsctl set-controller s1 tcp:127.0.0.1:6633 protocols=OpenFlow10')
-    s2.cmd('ovs-vsctl set-controller s2 tcp:127.0.0.1:6633 protocols=OpenFlow10')
-    s3.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633 protocols=OpenFlow10')
-    s4.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633 protocols=OpenFlow10')
-    s5.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633 protocols=OpenFlow10')
-    
+    s1.cmd('ovs-vsctl set-controller s1 tcp:127.0.0.1:6633')
+    s2.cmd('ovs-vsctl set-controller s2 tcp:127.0.0.1:6633')
+    s3.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
+    s4.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
+    s5.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
+
     # Iniciar a interface de linha de comando
     CLI(net)
 
