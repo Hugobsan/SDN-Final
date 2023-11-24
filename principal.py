@@ -83,8 +83,8 @@ def create_network():
         
         # Imprima a topologia de rede
         print("Network Topology:")
-        print(G.nodes)
-        print(G.edges)
+        print("Nodes:", G.nodes)
+        print("Edges:", G.edges)
 
     # Chame a função para imprimir a topologia de rede
     print_network_topology(net)
