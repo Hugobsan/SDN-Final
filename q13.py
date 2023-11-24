@@ -36,11 +36,11 @@ def simulaRede():
 
     print ("*** Criando os enlaces dos hosts para o comutador")
     # Adiciona os enlaces entre os switches e os hosts
-    net.addLink(h1, s1, bw=100, delay='10ms')
-    net.addLink(h2, s2, bw=100, delay='10ms')
-    net.addLink(h3, s3, bw=100, delay='10ms')
-    net.addLink(h4, s4, bw=100, delay='10ms')
-    net.addLink(h5, s5, bw=100, delay='10ms')
+    net.addLink(h1, s1, bw=100, delay='10ms', loss=0, use_htb=True )
+    net.addLink(h2, s2, bw=100, delay='10ms', loss=0, use_htb=True )
+    net.addLink(h3, s3, bw=100, delay='10ms', loss=0, use_htb=True )
+    net.addLink(h4, s4, bw=100, delay='10ms', loss=0, use_htb=True )
+    net.addLink(h5, s5, bw=100, delay='10ms', loss=0, use_htb=True )
 
     print ("*** Criando os enlaces entre os switches")
     # Conectar os switches
@@ -67,7 +67,7 @@ def simulaRede():
     h3.cmd('ifconfig h3-eth0 10.0.0.3 netmask 255.255.255.0')
     h4.cmd('ifconfig h4-eth0 10.0.0.4 netmask 255.255.255.0')
     h5.cmd('ifconfig h5-eth0 10.0.0.5 netmask 255.255.255.0')
-    
+
     # Iniciando a interface de linha de comando do Mininet
     CLI(net)
     print ("Parando a Simulacao")
