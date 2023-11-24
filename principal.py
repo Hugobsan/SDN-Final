@@ -17,24 +17,25 @@ def create_network():
     c0 = net.addController('c0')
 
     # Adicionar as switches
-    switches = {}
-    
-    for i in range(1, 6):
-        switches['s%s' % i] = net.addSwitch('s%s' % i)
+    s1 = net.addSwitch('s1')
+    s2 = net.addSwitch('s2')
+    s3 = net.addSwitch('s3')
+    s4 = net.addSwitch('s4')
+    s5 = net.addSwitch('s5')
 
     # Adiciona os hosts à rede
-    hosts = {}
+    h1 = net.addHost('h1')
+    h2 = net.addHost('h2')
+    h3 = net.addHost('h3')
+    h4 = net.addHost('h4')
+    h5 = net.addHost('h5')
 
-    for i in range(1, 11):
-        hosts['h%s' % i] = net.addHost('h%s' % i)
-
-    # Adiciona os enlaces entre os switches e os hosts dividindo igualmente entre os switches
-
-    for i in range(1, 6):
-        #Para cada switch, adiciona 2 hosts
-        for j in range(1, 3):
-            net.addLink(hosts['h%s' % j], switches['s%s' % i], cls=TCLink, bw=100, delay='10ms')
-        
+    # Adiciona os enlaces entre os switches e os hosts
+    net.addLink(h1, s1, cls=TCLink, bw=100, delay='10ms')
+    net.addLink(h2, s2, cls=TCLink, bw=100, delay='10ms')
+    net.addLink(h3, s3, cls=TCLink, bw=100, delay='10ms')
+    net.addLink(h4, s4, cls=TCLink, bw=100, delay='10ms')
+    net.addLink(h5, s5, cls=TCLink, bw=100, delay='10ms')
 
     # Conectar os switches
     net.addLink(switches['s1'], switches['s5'])
@@ -47,17 +48,26 @@ def create_network():
     net.build()
     c0.start()
 
-    # Iniciar as switches com o controlador
-    for i in range(1, 6):
-        switches['s%s' % i].start([c0])
+    # Iniciar os switches
+    s1.start([c0])
+    s2.start([c0])
+    s3.start([c0])
+    s4.start([c0])
+    s5.start([c0])
 
     # Configurar os endereços IP para os hosts
-    for i in range(1, 11):
-        hosts['h%s' % i].cmd('ifconfig h%s-eth0 10.0.0.%s netmask 255.255.255.0' % (i, i))
+    h1.cmd('ifconfig h1-eth0 10.0.0.1 netmask 255.255.255.0')
+    h2.cmd('ifconfig h2-eth0 10.0.0.2 netmask 255.255.255.0')
+    h3.cmd('ifconfig h3-eth0 10.0.0.3 netmask 255.255.255.0')
+    h4.cmd('ifconfig h4-eth0 10.0.0.4 netmask 255.255.255.0')
+    h5.cmd('ifconfig h5-eth0 10.0.0.5 netmask 255.255.255.0')
     
     # Definir o controlador para as switches
-    for i in range(1, 6):
-        switches['s%s' % i].cmd('ovs-vsctl set Bridge s%s protocols=OpenFlow13' % i)
+    s1.cmd('ovs-vsctl set-controller s1 tcp:127.0.0.1:6633')
+    s2.cmd('ovs-vsctl set-controller s2 tcp:127.0.0.1:6633')
+    s3.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
+    s4.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
+    s5.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
         
     # Iniciar a interface de linha de comando
     CLI(net)
