@@ -5,18 +5,8 @@ from mininet.cli import CLI
 from mininet.link import TCLink
 from mininet.log import setLogLevel
 
-from os import environ
-POXDIR = environ[ 'HOME' ] + '/pox'
-
-#Definindo a classe POX para ser utilizada como controlador
-class POX( Controller ):
-    def __init__( self, name, cdir=POXDIR, command='python pox.py', cargs=( 'openflow.of_01 --port=%s ' 'forwarding.hub' ), **kwargs ):
-        Controller.__init__( self, name, cdir=cdir, command=command, cargs=cargs, **kwargs )
-
-# Criar a rede
 def create_network():
-    net = Mininet(controller=Controller, switch=OVSSwitch)
-    
+    net = Mininet(controller=Controller, switch=OVSSwitch, link=TCLink)
     # Adicionar o controlador
     c0 = net.addController('c0')
 
@@ -33,28 +23,24 @@ def create_network():
     h3 = net.addHost('h3')
     h4 = net.addHost('h4')
     h5 = net.addHost('h5')
-    h6 = net.addHost('h6')
 
     # Adiciona os enlaces entre os switches e os hosts
-    net.addLink(h1, s1, cls=TCLink, bw=100, delay='10ms')
-    net.addLink(h2, s2, cls=TCLink, bw=100, delay='10ms')
-    net.addLink(h3, s3, cls=TCLink, bw=100, delay='10ms')
-    net.addLink(h4, s4, cls=TCLink, bw=100, delay='10ms')
-    net.addLink(h5, s5, cls=TCLink, bw=100, delay='10ms')
-    net.addLink(h6, s1, cls=TCLink, bw=100, delay='10ms')
+    net.addLink(s1, h1, bw=100, delay='10ms')
+    net.addLink(s2, h2, bw=100, delay='10ms')
+    net.addLink(s3, h3, bw=100, delay='10ms')
+    net.addLink(s4, h4, bw=100, delay='10ms')
+    net.addLink(s5, h5, bw=100, delay='10ms')
 
     # Conectar os switches
-    net.addLink(s1, s5)
     net.addLink(s1, s4)
+    net.addLink(s1, s5)
+    net.addLink(s5, s2)
     net.addLink(s2, s3)
-    net.addLink(s2, s5)
-    net.addLink(s3, s4)
 
     # Iniciar a rede
     net.build()
     c0.start()
 
-    # Iniciar os switches
     s1.start([c0])
     s2.start([c0])
     s3.start([c0])
@@ -67,14 +53,13 @@ def create_network():
     h3.cmd('ifconfig h3-eth0 10.0.0.3 netmask 255.255.255.0')
     h4.cmd('ifconfig h4-eth0 10.0.0.4 netmask 255.255.255.0')
     h5.cmd('ifconfig h5-eth0 10.0.0.5 netmask 255.255.255.0')
-    h6.cmd('ifconfig h6-eth0 10.0.0.6 netmask 255.255.255.0')
     
     # Definir o controlador para as switches
-    s1.cmd('ovs-vsctl set-controller s1 tcp:127.0.0.1:6633 protocols=OpenFlow10')
+    s1.cmd('ovs-vsctl set-controller s1 tcp:127.0.0.1:6633')
     s2.cmd('ovs-vsctl set-controller s2 tcp:127.0.0.1:6633')
     s3.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
-    s4.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
-    s5.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
+    s4.cmd('ovs-vsctl set-controller s4 tcp:127.0.0.1:6633')
+    s5.cmd('ovs-vsctl set-controller s5 tcp:127.0.0.1:6633')
 
     # Iniciar a interface de linha de comando
     CLI(net)
