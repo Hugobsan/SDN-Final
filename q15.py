@@ -32,13 +32,11 @@ def create_network():
     net.addLink(s5, h5, bw=100, delay='10ms')
 
     # Conectar os switches
-    net.addLink(s1, s2)
-    net.addLink(s1, s3)
-    net.addLink(s2, s3)
-    net.addLink(s2, s4)
-    net.addLink(s3, s4)
-    net.addLink(s3, s5)
-    net.addLink(s4, s5)
+    net.addLink(s1, s4)
+    net.addLink(s4, s3)
+    net.addLink(s3, s2)
+    net.addLink(s2, s5)
+    net.addLink(s5, s1)
 
     # Iniciar a rede
     net.build()
