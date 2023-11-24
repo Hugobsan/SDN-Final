@@ -65,7 +65,7 @@ def create_network():
     s4.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
     s5.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
 
-    # Incluindo o POX
+    # Configurar o protocolo OpenFlow 1.0
     s1.cmd('sudo ovs-vsctl set bridge s1 protocols=OpenFlow10')
     s2.cmd('sudo ovs-vsctl set bridge s2 protocols=OpenFlow10')
     s3.cmd('sudo ovs-vsctl set bridge s3 protocols=OpenFlow10')
