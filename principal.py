@@ -8,7 +8,6 @@ from mininet.log import setLogLevel
 #printar a topologia da rede no terminal
 #sudo mn --custom principal.py --topo mytopo --test pingall
 
-
 # Criar a rede
 def create_network():
     net = Mininet(controller=Controller, switch=OVSSwitch)
@@ -69,6 +68,27 @@ def create_network():
     s4.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
     s5.cmd('ovs-vsctl set-controller s3 tcp:127.0.0.1:6633')
         
+    import networkx as nx
+
+    def print_network_topology(net):
+        G = nx.Graph()
+        
+        # Adicione os nós à topologia
+        for host in net.hosts:
+            G.add_node(host.name)
+        
+        # Adicione as arestas à topologia
+        for link in net.links:
+            G.add_edge(link.intf1.node.name, link.intf2.node.name)
+        
+        # Imprima a topologia de rede
+        print("Network Topology:")
+        print(G.nodes)
+        print(G.edges)
+
+    # Chame a função para imprimir a topologia de rede
+    print_network_topology(net)
+
     # Iniciar a interface de linha de comando
     CLI(net)
 
